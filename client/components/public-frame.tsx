@@ -1,3 +1,4 @@
+import { SiteFooter } from "@/components/site-footer";
 import Link from "next/link";
 import { ArrowRight, Box } from "lucide-react";
 export function PublicFrame({ children }: { children: React.ReactNode }) {
@@ -115,32 +116,7 @@ export function PublicFrame({ children }: { children: React.ReactNode }) {
         </Link>
       </header>
       <main>{children}</main>
-      <footer
-        className={[
-          "landing-footer [&]:max-w-328 [&]:m-auto [&]:[border-top:1px_solid_#202020]",
-          "[&]:p-[30px_40px] [&]:flex [&]:items-center [&]:justify-between [&]:gap-5",
-          "[&_.landing-brand]:text-[15px] [&_>_span]:text-[11px] [&_>_span]:text-[#777]",
-          "[&_>_a:last-child]:flex [&_>_a:last-child]:items-center [&_>_a:last-child]:gap-2",
-          "[&_>_a:last-child]:text-[11px] [&_>_a:last-child]:text-[#bbb]",
-          "max-[600px]:[&]:p-[25px_24px] max-[600px]:[&]:flex-wrap max-[600px]:[&_>_span]:hidden",
-        ].join(" ")}
-      >
-        <Link
-          href="/"
-          className={[
-            "landing-brand [&]:inline-flex [&]:items-center [&]:gap-2.75 [&]:text-[20px]",
-            "[&]:font-[650] [&]:tracking-[-.7px] [&]:whitespace-nowrap",
-            "max-[600px]:[&]:text-[18px] max-[600px]:[&]:gap-2 max-[600px]:[&_svg]:w-6.25",
-          ].join(" ")}
-        >
-          <Box size={20} />
-          CloudForge
-        </Link>
-        <span>Built for what’s next.</span>
-        <Link href="/">
-          Back to home <ArrowRight size={13} />
-        </Link>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
