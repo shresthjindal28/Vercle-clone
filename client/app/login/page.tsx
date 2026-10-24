@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, Box } from "lucide-react";
+import { Box } from "lucide-react";
+import { AuthForm } from "@/components/auth-form";
 export default function Login() {
   return (
     <main
@@ -29,22 +30,8 @@ export default function Login() {
         ].join(" ")}
       >
         <h1>Your next idea starts here.</h1>
-        <p>Explore your CloudForge workspace.</p>
-        <Link
-          href="/dashboard"
-          className={[
-            "landing-cta [&]:inline-flex [&]:items-center [&]:justify-center [&]:gap-3",
-            "[&]:[background:#f8f8f8] [&]:text-[#161616] [&]:[border:1px_solid_#dedede] [&]:rounded-[13px]",
-            "[&]:text-[13px] [&]:font-[550] [&]:p-[13px_23px]",
-            "[&]:[box-shadow:0_0_25px_#ffffff25,0_0_6px_#ffffff1a] [&]:[transition:box-shadow_.2s,background_.2s]",
-            "[&]:whitespace-nowrap [&:hover]:[background:#dedede] [&:hover]:[box-shadow:0_0_35px_#ffffff38]",
-            "max-[600px]:[&]:text-[12px] max-[600px]:[&]:p-[12px_17px] max-[600px]:[&]:gap-2.25",
-            "max-[600px]:[&]:rounded-[11px]",
-          ].join(" ")}
-        >
-          Continue to demo workspace <ArrowRight size={16} />
-        </Link>
-        <small>This is a local preview. Account authentication is not connected yet.</small>
+        <p>Sign in or create your CloudForge account.</p>
+        <AuthForm />
         <Link href="/" className={"login-back [&]:text-[12px] [&]:text-muted-foreground"}>
           ← Back to home
         </Link>

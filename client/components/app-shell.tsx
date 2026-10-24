@@ -7,6 +7,7 @@ import { Layers2, PanelLeft, Search, ChevronRight, UserRound } from "lucide-reac
 import { Icon as AppIcon } from "@/components/ui/icon";
 import { useKeyboardShortcut } from "@/components/platform/keyboard-shortcuts";
 import { groups, hrefFor } from "@/lib/navigation";
+import { SignOutButton } from "@/components/sign-out-button";
 import {
   CommandDialog,
   CommandInput,
@@ -145,6 +146,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {workspaceName}
           </strong>
           <span>Free Plan</span>
+          <SignOutButton />
         </span>
       </footer>
     </>
