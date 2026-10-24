@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+import { LoadingWorkspace } from "@/components/platform/workspace-ui";
 import { notFound } from "next/navigation";
 import { groups, hrefFor } from "@/lib/navigation";
 import { sectionConfigs } from "@/lib/workspace-data";
@@ -5,11 +7,15 @@ import { ResourcePage } from "@/components/platform/resource-page";
 import { ResourceDetail } from "@/components/platform/resource-detail";
 import { ObservabilityPage } from "@/components/platform/observability-page";
 import { OrganizationPage } from "@/components/platform/organization-page";
-export default async function WorkspacePage({
-  params,
-}: {
-  params: Promise<{ section: string[] }>;
-}) {
+export default function WorkspacePage({ params }: { params: Promise<{ section: string[] }> }) {
+  return (
+    <Suspense fallback={<LoadingWorkspace />}>
+      <WorkspaceContent params={params} />
+    </Suspense>
+  );
+}
+
+async function WorkspaceContent({ params }: { params: Promise<{ section: string[] }> }) {
   const { section } = await params;
   const key = section[0];
   if (

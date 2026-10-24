@@ -9,7 +9,6 @@ import {
   Plus,
   Settings2,
   Trash2,
-  Upload,
   GitBranch,
   Play,
   Pause,

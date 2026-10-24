@@ -224,7 +224,7 @@ export function Dashboard() {
   const metrics = [
     {
       label: "Total Deployments",
-      value: Math.round(24 * multiplier).toLocaleString(),
+      value: Math.round(24 * multiplier).toLocaleString("en-US"),
       change: "12%",
       icon: FileCode2,
     },
@@ -693,7 +693,7 @@ export function Dashboard() {
                   "[&_>_span:not(.metric-change)]:text-[10px] [&_>_span:not(.metric-change)]:text-[#999]",
                 ].join(" ")}
               >
-                <strong>{Math.round(1204832 * multiplier).toLocaleString()}</strong>
+                <strong>{Math.round(1204832 * multiplier).toLocaleString("en-US")}</strong>
                 <span>Total requests</span>
                 <span
                   className={[
@@ -738,7 +738,7 @@ export function Dashboard() {
                         ].join(" "),
                         chartHeightClass((v / 60) * 100),
                       ].join(" ")}
-                      title={`${Math.round(v * 1000 * multiplier).toLocaleString()} demo requests`}
+                      title={`${Math.round(v * 1000 * multiplier).toLocaleString("en-US")} demo requests`}
                     />
                   ))}
                 </div>

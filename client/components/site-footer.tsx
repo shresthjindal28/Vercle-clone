@@ -2,49 +2,518 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ArrowUp, Box, CheckCircle2, ChevronDown, Globe, LockKeyhole, Mail, MessageCircle, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUp,
+  Box,
+  CheckCircle2,
+  ChevronDown,
+  Globe,
+  LockKeyhole,
+  Mail,
+  MessageCircle,
+  Zap,
+} from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-function GitHubIcon({size=16}:{size?:number}) {return <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.82c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>;}
-function LinkedInIcon({size=16}:{size?:number}) {return <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M5 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM3.3 9H6.7V21H3.3V9Zm5.7 0h3.3v1.6c.5-.9 1.6-1.9 3.5-1.9 3.7 0 4.2 2.4 4.2 5.5V21h-3.4v-6c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3V21H9V9Z"/></svg>;}
-function YouTubeIcon({size=16}:{size?:number}) {return <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.6 7.2c-.2-1-1-1.8-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4c-1 .2-1.8 1-2 2A30 30 0 0 0 2 12a30 30 0 0 0 .4 4.8c.2 1 1 1.8 2 2 1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4c1-.2 1.8-1 2-2A30 30 0 0 0 22 12a30 30 0 0 0-.4-4.8ZM10 15.5v-7l6 3.5-6 3.5Z"/></svg>;}
+function GitHubIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.82c.85 0 1.71.11 2.51.34 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.69-4.57 4.94.36.31.68.92.68 1.85V21c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" />
+    </svg>
+  );
+}
+function LinkedInIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M5 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM3.3 9H6.7V21H3.3V9Zm5.7 0h3.3v1.6c.5-.9 1.6-1.9 3.5-1.9 3.7 0 4.2 2.4 4.2 5.5V21h-3.4v-6c0-1.5 0-3.4-2.1-3.4s-2.4 1.6-2.4 3.3V21H9V9Z" />
+    </svg>
+  );
+}
+function YouTubeIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M21.6 7.2c-.2-1-1-1.8-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4c-1 .2-1.8 1-2 2A30 30 0 0 0 2 12a30 30 0 0 0 .4 4.8c.2 1 1 1.8 2 2 1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4c1-.2 1.8-1 2-2A30 30 0 0 0 22 12a30 30 0 0 0-.4-4.8ZM10 15.5v-7l6 3.5-6 3.5Z" />
+    </svg>
+  );
+}
 
 const columns = [
- {title:"Product",links:[{label:"Features",href:"/#platform"},{label:"Pricing",href:"/#pricing"},{label:"Enterprise",href:"/support/contact"},{label:"Changelog"},{label:"Roadmap"},{label:"Status",href:"/status"}]},
- {title:"Solutions",links:[{label:"For Startups",href:"/login"},{label:"For Enterprises",href:"/support/contact"},{label:"For Agencies",href:"/login"},{label:"For Education",href:"/guides"},{label:"Customer Stories"},{label:"Partners",href:"/support/contact"}]},
- {title:"Developers",links:[{label:"Documentation",href:"/guides"},{label:"API Reference"},{label:"SDKs"},{label:"CLI"},{label:"Examples",href:"/dashboard"},{label:"Community",href:"/support"}]},
- {title:"Company",links:[{label:"About"},{label:"Careers"},{label:"Blog",href:"/guides"},{label:"Press"},{label:"Contact",href:"/support/contact"},{label:"Legal"}]},
+  {
+    title: "Product",
+    links: [
+      { label: "Features", href: "/#platform" },
+      { label: "Pricing", href: "/#pricing" },
+      { label: "Enterprise", href: "/support/contact" },
+      { label: "Changelog" },
+      { label: "Roadmap" },
+      { label: "Status", href: "/status" },
+    ],
+  },
+  {
+    title: "Solutions",
+    links: [
+      { label: "For Startups", href: "/login" },
+      { label: "For Enterprises", href: "/support/contact" },
+      { label: "For Agencies", href: "/login" },
+      { label: "For Education", href: "/guides" },
+      { label: "Customer Stories" },
+      { label: "Partners", href: "/support/contact" },
+    ],
+  },
+  {
+    title: "Developers",
+    links: [
+      { label: "Documentation", href: "/guides" },
+      { label: "API Reference" },
+      { label: "SDKs" },
+      { label: "CLI" },
+      { label: "Examples", href: "/dashboard" },
+      { label: "Community", href: "/support" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About" },
+      { label: "Careers" },
+      { label: "Blog", href: "/guides" },
+      { label: "Press" },
+      { label: "Contact", href: "/support/contact" },
+      { label: "Legal" },
+    ],
+  },
 ];
-const info: Record<string,{title:string;description:string}>={
- "Changelog":{title:"Always moving forward.",description:"The current preview includes a deployment dashboard, project navigation, troubleshooting, and developer guides. Product release notes will be published here as integrations become available."},
- "Roadmap":{title:"What’s next for CloudForge",description:"Account authentication, repository connections, live deployments, and platform monitoring are the next steps beyond the current workspace preview."},
- "Customer Stories":{title:"Your next idea could be the story.",description:"Customer stories will appear here as projects go live. For now, explore the demo workspace to see the CloudForge workflow."},
- "API Reference":{title:"A developer-first platform.",description:"Public API reference documentation will become available when the deployment API is connected. Our current guides cover the workspace and common troubleshooting workflows."},
- "SDKs":{title:"Build with your favorite tools.",description:"CloudForge SDKs are not published yet. Browse our developer guides to explore project setup, environments, domains, and functions."},
- "CLI":{title:"From your terminal to the internet.",description:"The CloudForge command-line tool is not available in this preview. Use the demo dashboard to explore the deployment workflow."},
- "About":{title:"Built for what’s next.",description:"CloudForge brings projects, deployments, resources, and developer tools into one workspace. Build, ship, and grow your ideas without the infrastructure getting in the way."},
- "Careers":{title:"Build the future with us.",description:"No open roles are listed in this preview. You can use the contact page to prepare a question for the CloudForge team."},
- "Press":{title:"CloudForge press resources",description:"Press resources and brand assets will be published here when available. Use the contact page for general inquiries."},
- "Legal":{title:"Legal information",description:"Formal policies and service agreements are not published in this preview. The workspace uses demo data; support requests and newsletter entries are saved locally and are not delivered."},
- "Privacy Policy":{title:"Privacy overview",description:"The current preview stores workspace settings, support drafts, and newsletter entries in your browser. These forms do not send their contents to a backend. Formal privacy policies will be published before account services launch."},
- "Terms of Service":{title:"Service preview",description:"CloudForge is currently a platform preview. Deployment and status data are illustrative. No paid services or production hosting are provided through the current demo. Formal terms will be published before those services launch."},
- "Security":{title:"Security by design.",description:"Never include passwords, API keys, or payment information in support messages. The current demo does not process payments or connect to your repositories. See our environment variable guides for safe configuration practices."},
+const info: Record<string, { title: string; description: string }> = {
+  Changelog: {
+    title: "Always moving forward.",
+    description:
+      "The current preview includes a deployment dashboard, project navigation, troubleshooting, and developer guides. Product release notes will be published here as integrations become available.",
+  },
+  Roadmap: {
+    title: "What’s next for CloudForge",
+    description:
+      "Account authentication, repository connections, live deployments, and platform monitoring are the next steps beyond the current workspace preview.",
+  },
+  "Customer Stories": {
+    title: "Your next idea could be the story.",
+    description:
+      "Customer stories will appear here as projects go live. For now, explore the demo workspace to see the CloudForge workflow.",
+  },
+  "API Reference": {
+    title: "A developer-first platform.",
+    description:
+      "Public API reference documentation will become available when the deployment API is connected. Our current guides cover the workspace and common troubleshooting workflows.",
+  },
+  SDKs: {
+    title: "Build with your favorite tools.",
+    description:
+      "CloudForge SDKs are not published yet. Browse our developer guides to explore project setup, environments, domains, and functions.",
+  },
+  CLI: {
+    title: "From your terminal to the internet.",
+    description:
+      "The CloudForge command-line tool is not available in this preview. Use the demo dashboard to explore the deployment workflow.",
+  },
+  About: {
+    title: "Built for what’s next.",
+    description:
+      "CloudForge brings projects, deployments, resources, and developer tools into one workspace. Build, ship, and grow your ideas without the infrastructure getting in the way.",
+  },
+  Careers: {
+    title: "Build the future with us.",
+    description:
+      "No open roles are listed in this preview. You can use the contact page to prepare a question for the CloudForge team.",
+  },
+  Press: {
+    title: "CloudForge press resources",
+    description:
+      "Press resources and brand assets will be published here when available. Use the contact page for general inquiries.",
+  },
+  Legal: {
+    title: "Legal information",
+    description:
+      "Formal policies and service agreements are not published in this preview. The workspace uses demo data; support requests and newsletter entries are saved locally and are not delivered.",
+  },
+  "Privacy Policy": {
+    title: "Privacy overview",
+    description:
+      "The current preview stores workspace settings, support drafts, and newsletter entries in your browser. These forms do not send their contents to a backend. Formal privacy policies will be published before account services launch.",
+  },
+  "Terms of Service": {
+    title: "Service preview",
+    description:
+      "CloudForge is currently a platform preview. Deployment and status data are illustrative. No paid services or production hosting are provided through the current demo. Formal terms will be published before those services launch.",
+  },
+  Security: {
+    title: "Security by design.",
+    description:
+      "Never include passwords, API keys, or payment information in support messages. The current demo does not process payments or connect to your repositories. See our environment variable guides for safe configuration practices.",
+  },
 };
 
 export function SiteFooter() {
- const [email,setEmail]=useState("");const [consent,setConsent]=useState(false);const [subscribed,setSubscribed]=useState(false);const [message,setMessage]=useState("");const [active,setActive]=useState<string|null>(null);const [analytics,setAnalytics]=useState(false);const [marketing,setMarketing]=useState(false);const [preferencesSaved,setPreferencesSaved]=useState(false);
+  const [email, setEmail] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [subscribed, setSubscribed] = useState(false);
+  const [message, setMessage] = useState("");
+  const [active, setActive] = useState<string | null>(null);
+  const [analytics, setAnalytics] = useState(false);
+  const [marketing, setMarketing] = useState(false);
+  const [preferencesSaved, setPreferencesSaved] = useState(false);
 
- const details=active ? info[active] : undefined;
- return <footer className="site-footer relative isolate overflow-hidden rounded-t-[28px] border-t border-white/[.07] bg-[#030303] text-[#a0a0a0]" aria-label="CloudForge footer"><div className="pointer-events-none absolute inset-x-0 top-0 bottom-[220px] md:bottom-[100px] lg:bottom-[70px] -z-10 bg-[url('/images/footer-landscape.webp')] bg-[length:auto_350px] bg-bottom bg-no-repeat lg:bg-[length:112%_100%] lg:bg-left-bottom" aria-hidden="true"/><div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/15 via-transparent to-black/20" aria-hidden="true"/>
- <div className="relative mx-auto max-w-[1536px] px-6 pb-24 pt-16 md:px-10 md:pb-24 md:pt-20 xl:px-[72px] xl:pt-[82px]"><button aria-label="Back to top" title="Back to top" onClick={()=>window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'})} className="absolute right-6 top-5 grid size-10 cursor-pointer place-items-center rounded-full border border-white/10 bg-[#171717]/70 text-white transition-colors hover:border-white/40 hover:bg-[#242424] md:right-10 xl:right-[72px]"><ArrowUp size={17}/></button>
- <div className="grid grid-cols-1 gap-10 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-9 xl:grid-cols-[250px_minmax(0,1fr)_330px] xl:gap-10"><div className="footer-brand-column lg:border-r lg:border-white/[.07] lg:pr-8"><Link href="/" className="footer-brand inline-flex items-center gap-2.5 text-[22px] font-semibold tracking-[-.7px] text-[#f5f5f5]"><Box className="size-8" strokeWidth={2.4}/>CloudForge</Link><p className="mb-5 mt-3 max-w-[245px] text-[13px] leading-[1.75] text-[#999]">The modern platform for deploying and scaling your ideas. Build, ship, and grow without limits.</p><ul className="flex flex-col gap-2">{[{icon:Zap,text:"Blazing fast deployments"},{icon:LockKeyhole,text:"Secure by default"},{icon:Globe,text:"Global edge network"},{icon:Box,text:"Built for developers"}].map(({icon:Icon,text})=><li className="flex items-center gap-3 text-[11px]" key={text}><span className="grid size-7 shrink-0 place-items-center rounded-[7px] border-t border-white/5 bg-gradient-to-br from-[#202020] to-[#0a0a0a] text-[#ccc]"><Icon size={15}/></span>{text}</li>)}</ul></div>
- <nav aria-label="Footer navigation" className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 lg:gap-x-5">{columns.map(column=><div key={column.title}><h2 className="mb-4 text-[12px] font-medium text-[#ececec]">{column.title}</h2><ul className="flex flex-col gap-[15px]">{column.links.map(link=><li key={link.label} className="text-[11px] leading-4">{"href" in link && link.href ? <Link href={link.href} className="transition-colors hover:text-white">{link.label}</Link> : <button onClick={()=>setActive(link.label)} className="cursor-pointer text-left transition-colors hover:text-white">{link.label}</button>}</li>)}</ul></div>)}</nav>
- <div className="newsletter-column border-t border-white/[.07] pt-8 lg:col-span-2 lg:border-t-0 xl:col-span-1 xl:border-l xl:border-white/[.07] xl:pl-10 xl:pt-0"><p className="mb-3 text-[8px] font-medium uppercase tracking-[2px] text-[#888]">Stay updated</p><h2 className="text-[24px] font-medium leading-tight tracking-[-.6px] text-[#eee]">Build what’s next.</h2><p className="mb-4 mt-2 text-[12px] leading-[1.8] text-[#999]">Get the latest updates, features, and developer tips delivered to your inbox.</p><form onSubmit={e=>{e.preventDefault();if(!consent){setMessage("Please agree to receive product updates before subscribing.");return;}try{localStorage.setItem("cloudforge-newsletter",JSON.stringify({email,consent:true}));setSubscribed(true);setMessage("Email saved on this device. Newsletter delivery is not connected yet.");}catch{setMessage("Your browser could not save this email. Please try again.");}}}><div className="flex h-11 items-center gap-3 rounded-xl border border-[#303030] bg-gradient-to-r from-[#151515]/85 to-[#090909]/85 py-1 pl-4 pr-1"><Mail size={16} className="shrink-0 text-[#ddd]"/><Input name="email" type="email" autoComplete="email" aria-label="Email for product updates" required placeholder="Enter your email" value={email} onChange={e=>{setEmail(e.target.value);setSubscribed(false);setMessage("");}} className="h-auto min-w-0 border-0 bg-transparent! px-0 text-[11px] shadow-none ring-0 focus-visible:ring-0"/><button type="submit" aria-label="Subscribe to product updates" className="grid size-[34px] shrink-0 cursor-pointer place-items-center rounded-[10px] bg-[#f8f8f8] text-[#111] shadow-[0_0_14px_#ffffff18] transition-colors hover:bg-[#ddd] disabled:cursor-not-allowed disabled:opacity-50">{subscribed ? <CheckCircle2 size={16}/> : <ArrowRight size={16}/>}</button></div><label className="mt-3 flex cursor-pointer items-start gap-2 text-[9px] leading-[1.7] text-[#999]"><Checkbox checked={consent} onCheckedChange={value=>setConsent(value===true)} aria-label="Agree to receive product updates" className="mt-0.5 size-3.5 rounded-[3px] border-[#666]"/><span>I agree to receive product updates and marketing emails.</span></label><p role="status" className="mt-2 text-[9px] leading-relaxed text-[#aaa]">{message}</p></form>
- <div className="mt-5 flex flex-wrap gap-2.5" aria-label="Social links">{[{label:"GitHub",icon:GitHubIcon,href:"https://github.com"},{label:"X",icon:null,href:"https://x.com"},{label:"Discord",icon:MessageCircle,href:"https://discord.com"},{label:"LinkedIn",icon:LinkedInIcon,href:"https://linkedin.com"},{label:"YouTube",icon:YouTubeIcon,href:"https://youtube.com"},{label:"Email support",icon:Mail,href:"/support/contact"}].map(({label,icon:Icon,href})=>href.startsWith("/") ? <Link href={href} key={label} aria-label={label} className="grid size-[33px] place-items-center rounded-lg border border-white/[.08] bg-black/25 text-[#ddd] transition-colors hover:border-white/35 hover:text-white"><Mail size={16}/></Link> : <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`Open ${label}`} className="grid size-[33px] place-items-center rounded-lg border border-white/[.08] bg-black/25 text-[#ddd] transition-colors hover:border-white/35 hover:text-white">{Icon ? <Icon size={16}/> : <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-4"><path d="M4 3h4.5L20 21h-4.5L4 3Zm15 0L5 21" stroke="currentColor" strokeWidth="1.5"/></svg>}</a>)}</div></div></div></div>
- <div className="mx-auto max-w-[1536px] px-6 md:px-10 xl:px-[72px]"><div className="flex flex-col items-start justify-between gap-5 border-t border-white/[.09] py-6 text-[9px] text-[#858585] lg:flex-row lg:items-center"><p className="shrink-0">© 2026 CloudForge. All rights reserved.</p><div className="flex flex-wrap items-center gap-x-4 gap-y-3"><Link href="/status" className="mr-1 inline-flex items-center gap-2 whitespace-nowrap border-white/10 hover:text-white lg:border-r lg:pr-5"><span className="size-1.5 rounded-full bg-[#ddd] shadow-[0_0_7px_#ffffff30]"/>All systems operational <span className="text-[7px] text-[#555]">DEMO</span></Link>{["Privacy Policy","Terms of Service","Security","Cookie Preferences"].map(label=><button key={label} onClick={()=>{setActive(label);setPreferencesSaved(false);if(label === "Cookie Preferences"){try{const stored=JSON.parse(localStorage.getItem("cloudforge-cookie-preferences") || "null");if(stored){setAnalytics(Boolean(stored.analytics));setMarketing(Boolean(stored.marketing));}}catch{}}}} className="cursor-pointer whitespace-nowrap border-white/10 transition-colors hover:text-white sm:border-r sm:pr-4 last:border-0 last:pr-0">{label}</button>)}</div><label className="flex shrink-0 items-center gap-2 border-white/10 text-[#aaa] lg:border-l lg:pl-6"><Globe size={16}/><span className="sr-only">Language</span><select aria-label="Language" className="cursor-pointer appearance-none bg-transparent py-1 pr-2 text-[10px] outline-none"><option className="bg-black">English</option></select><ChevronDown size={10}/></label></div></div>
- <Dialog open={active!==null} onOpenChange={open=>{if(!open)setActive(null);}}><DialogContent className="border-[#303030] bg-[#0b0b0b]"><DialogHeader><DialogTitle>{active==="Cookie Preferences" ? "Your privacy preferences" : details?.title ?? active}</DialogTitle><DialogDescription>{active==="Cookie Preferences" ? "Choose your optional preferences for this device. This preview does not load analytics or marketing trackers." : details?.description}</DialogDescription></DialogHeader>{active==="Cookie Preferences" ? <div className="flex flex-col gap-5 pt-3">{[{label:"Essential storage",description:"Workspace settings and preferences.",value:true,disabled:true},{label:"Analytics",description:"Optional usage analytics.",value:analytics,set:setAnalytics},{label:"Marketing",description:"Optional marketing preferences.",value:marketing,set:setMarketing}].map(p=><label key={p.label} className="flex items-center justify-between gap-5"><span><strong className="block text-[13px] font-medium">{p.label}</strong><small className="mt-1 block text-[11px] text-[#888]">{p.description}</small></span><Switch aria-label={p.label} checked={p.value} disabled={p.disabled} onCheckedChange={p.set}/></label>)}<button className="w-fit cursor-pointer rounded-lg bg-[#eee] px-4 py-2 text-[12px] text-black" onClick={()=>{try{localStorage.setItem("cloudforge-cookie-preferences",JSON.stringify({analytics,marketing}));setPreferencesSaved(true);}catch{setPreferencesSaved(false);}}}>Save preferences</button><p role="status" className="text-[11px] text-[#aaa]">{preferencesSaved ? "Your preferences have been saved on this device." : ""}</p></div> : <Link href={active==="API Reference" || active==="SDKs" || active==="CLI" ? "/guides" : "/support"} className="mt-3 inline-flex w-fit items-center gap-2 text-[12px] text-[#ddd]">Explore {active==="API Reference" || active==="SDKs" || active==="CLI" ? "the guides" : "the support center"}<ArrowRight size={14}/></Link>}</DialogContent></Dialog>
- </footer>;
+  const details = active ? info[active] : undefined;
+  return (
+    <footer
+      className="site-footer relative isolate overflow-hidden rounded-t-[28px] border-t border-white/[.07] bg-[#030303] text-[#a0a0a0]"
+      aria-label="CloudForge footer"
+    >
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 bottom-[220px] md:bottom-[100px] lg:bottom-[70px] -z-10 bg-[url('/images/footer-landscape.webp')] bg-[length:auto_350px] bg-bottom bg-no-repeat lg:bg-[length:112%_100%] lg:bg-left-bottom"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-black/15 via-transparent to-black/20"
+        aria-hidden="true"
+      />
+      <div className="relative mx-auto max-w-[1536px] px-6 pb-24 pt-16 md:px-10 md:pb-24 md:pt-20 xl:px-[72px] xl:pt-[82px]">
+        <button
+          aria-label="Back to top"
+          title="Back to top"
+          onClick={() =>
+            window.scrollTo({
+              top: 0,
+              behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ? "instant"
+                : "smooth",
+            })
+          }
+          className="absolute right-6 top-5 grid size-10 cursor-pointer place-items-center rounded-full border border-white/10 bg-[#171717]/70 text-white transition-colors hover:border-white/40 hover:bg-[#242424] md:right-10 xl:right-[72px]"
+        >
+          <ArrowUp size={17} />
+        </button>
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-9 xl:grid-cols-[250px_minmax(0,1fr)_330px] xl:gap-10">
+          <div className="footer-brand-column lg:border-r lg:border-white/[.07] lg:pr-8">
+            <Link
+              href="/"
+              className="footer-brand inline-flex items-center gap-2.5 text-[22px] font-semibold tracking-[-.7px] text-[#f5f5f5]"
+            >
+              <Box className="size-8" strokeWidth={2.4} />
+              CloudForge
+            </Link>
+            <p className="mb-5 mt-3 max-w-[245px] text-[13px] leading-[1.75] text-[#999]">
+              The modern platform for deploying and scaling your ideas. Build, ship, and grow
+              without limits.
+            </p>
+            <ul className="flex flex-col gap-2">
+              {[
+                { icon: Zap, text: "Blazing fast deployments" },
+                { icon: LockKeyhole, text: "Secure by default" },
+                { icon: Globe, text: "Global edge network" },
+                { icon: Box, text: "Built for developers" },
+              ].map(({ icon: Icon, text }) => (
+                <li className="flex items-center gap-3 text-[11px]" key={text}>
+                  <span className="grid size-7 shrink-0 place-items-center rounded-[7px] border-t border-white/5 bg-gradient-to-br from-[#202020] to-[#0a0a0a] text-[#ccc]">
+                    <Icon size={15} />
+                  </span>
+                  {text}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <nav
+            aria-label="Footer navigation"
+            className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 lg:gap-x-5"
+          >
+            {columns.map((column) => (
+              <div key={column.title}>
+                <h2 className="mb-4 text-[12px] font-medium text-[#ececec]">{column.title}</h2>
+                <ul className="flex flex-col gap-[15px]">
+                  {column.links.map((link) => (
+                    <li key={link.label} className="text-[11px] leading-4">
+                      {"href" in link && link.href ? (
+                        <Link href={link.href} className="transition-colors hover:text-white">
+                          {link.label}
+                        </Link>
+                      ) : (
+                        <button
+                          onClick={() => setActive(link.label)}
+                          className="cursor-pointer text-left transition-colors hover:text-white"
+                        >
+                          {link.label}
+                        </button>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+          <div className="newsletter-column border-t border-white/[.07] pt-8 lg:col-span-2 lg:border-t-0 xl:col-span-1 xl:border-l xl:border-white/[.07] xl:pl-10 xl:pt-0">
+            <p className="mb-3 text-[8px] font-medium uppercase tracking-[2px] text-[#888]">
+              Stay updated
+            </p>
+            <h2 className="text-[24px] font-medium leading-tight tracking-[-.6px] text-[#eee]">
+              Build what’s next.
+            </h2>
+            <p className="mb-4 mt-2 text-[12px] leading-[1.8] text-[#999]">
+              Get the latest updates, features, and developer tips delivered to your inbox.
+            </p>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!consent) {
+                  setMessage("Please agree to receive product updates before subscribing.");
+                  return;
+                }
+                try {
+                  localStorage.setItem(
+                    "cloudforge-newsletter",
+                    JSON.stringify({ email, consent: true }),
+                  );
+                  setSubscribed(true);
+                  setMessage(
+                    "Email saved on this device. Newsletter delivery is not connected yet.",
+                  );
+                } catch {
+                  setMessage("Your browser could not save this email. Please try again.");
+                }
+              }}
+            >
+              <div className="flex h-11 items-center gap-3 rounded-xl border border-[#303030] bg-gradient-to-r from-[#151515]/85 to-[#090909]/85 py-1 pl-4 pr-1">
+                <Mail size={16} className="shrink-0 text-[#ddd]" />
+                <Input
+                  name="email"
+                  type="email"
+                  autoComplete="email"
+                  aria-label="Email for product updates"
+                  required
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setSubscribed(false);
+                    setMessage("");
+                  }}
+                  className="h-auto min-w-0 border-0 bg-transparent! px-0 text-[11px] shadow-none ring-0 focus-visible:ring-0"
+                />
+                <button
+                  type="submit"
+                  aria-label="Subscribe to product updates"
+                  className="grid size-[34px] shrink-0 cursor-pointer place-items-center rounded-[10px] bg-[#f8f8f8] text-[#111] shadow-[0_0_14px_#ffffff18] transition-colors hover:bg-[#ddd] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {subscribed ? <CheckCircle2 size={16} /> : <ArrowRight size={16} />}
+                </button>
+              </div>
+              <label className="mt-3 flex cursor-pointer items-start gap-2 text-[9px] leading-[1.7] text-[#999]">
+                <Checkbox
+                  checked={consent}
+                  onCheckedChange={(value) => setConsent(value === true)}
+                  aria-label="Agree to receive product updates"
+                  className="mt-0.5 size-3.5 rounded-[3px] border-[#666]"
+                />
+                <span>I agree to receive product updates and marketing emails.</span>
+              </label>
+              <p role="status" className="mt-2 text-[9px] leading-relaxed text-[#aaa]">
+                {message}
+              </p>
+            </form>
+            <div className="mt-5 flex flex-wrap gap-2.5" aria-label="Social links">
+              {[
+                { label: "GitHub", icon: GitHubIcon, href: "https://github.com" },
+                { label: "X", icon: null, href: "https://x.com" },
+                { label: "Discord", icon: MessageCircle, href: "https://discord.com" },
+                { label: "LinkedIn", icon: LinkedInIcon, href: "https://linkedin.com" },
+                { label: "YouTube", icon: YouTubeIcon, href: "https://youtube.com" },
+                { label: "Email support", icon: Mail, href: "/support/contact" },
+              ].map(({ label, icon: Icon, href }) =>
+                href.startsWith("/") ? (
+                  <Link
+                    href={href}
+                    key={label}
+                    aria-label={label}
+                    className="grid size-[33px] place-items-center rounded-lg border border-white/[.08] bg-black/25 text-[#ddd] transition-colors hover:border-white/35 hover:text-white"
+                  >
+                    <Mail size={16} />
+                  </Link>
+                ) : (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Open ${label}`}
+                    className="grid size-[33px] place-items-center rounded-lg border border-white/[.08] bg-black/25 text-[#ddd] transition-colors hover:border-white/35 hover:text-white"
+                  >
+                    {Icon ? (
+                      <Icon size={16} />
+                    ) : (
+                      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="size-4">
+                        <path
+                          d="M4 3h4.5L20 21h-4.5L4 3Zm15 0L5 21"
+                          stroke="currentColor"
+                          strokeWidth="1.5"
+                        />
+                      </svg>
+                    )}
+                  </a>
+                ),
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="mx-auto max-w-[1536px] px-6 md:px-10 xl:px-[72px]">
+        <div className="flex flex-col items-start justify-between gap-5 border-t border-white/[.09] py-6 text-[9px] text-[#858585] lg:flex-row lg:items-center">
+          <p className="shrink-0">© 2026 CloudForge. All rights reserved.</p>
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+            <Link
+              href="/status"
+              className="mr-1 inline-flex items-center gap-2 whitespace-nowrap border-white/10 hover:text-white lg:border-r lg:pr-5"
+            >
+              <span className="size-1.5 rounded-full bg-[#ddd] shadow-[0_0_7px_#ffffff30]" />
+              All systems operational <span className="text-[7px] text-[#555]">DEMO</span>
+            </Link>
+            {["Privacy Policy", "Terms of Service", "Security", "Cookie Preferences"].map(
+              (label) => (
+                <button
+                  key={label}
+                  onClick={() => {
+                    setActive(label);
+                    setPreferencesSaved(false);
+                    if (label === "Cookie Preferences") {
+                      try {
+                        const stored = JSON.parse(
+                          localStorage.getItem("cloudforge-cookie-preferences") || "null",
+                        );
+                        if (stored) {
+                          setAnalytics(Boolean(stored.analytics));
+                          setMarketing(Boolean(stored.marketing));
+                        }
+                      } catch {}
+                    }
+                  }}
+                  className="cursor-pointer whitespace-nowrap border-white/10 transition-colors hover:text-white sm:border-r sm:pr-4 last:border-0 last:pr-0"
+                >
+                  {label}
+                </button>
+              ),
+            )}
+          </div>
+          <label className="flex shrink-0 items-center gap-2 border-white/10 text-[#aaa] lg:border-l lg:pl-6">
+            <Globe size={16} />
+            <span className="sr-only">Language</span>
+            <select
+              aria-label="Language"
+              className="cursor-pointer appearance-none bg-transparent py-1 pr-2 text-[10px] outline-none"
+            >
+              <option className="bg-black">English</option>
+            </select>
+            <ChevronDown size={10} />
+          </label>
+        </div>
+      </div>
+      <Dialog
+        open={active !== null}
+        onOpenChange={(open) => {
+          if (!open) setActive(null);
+        }}
+      >
+        <DialogContent className="border-[#303030] bg-[#0b0b0b]">
+          <DialogHeader>
+            <DialogTitle>
+              {active === "Cookie Preferences"
+                ? "Your privacy preferences"
+                : (details?.title ?? active)}
+            </DialogTitle>
+            <DialogDescription>
+              {active === "Cookie Preferences"
+                ? "Choose your optional preferences for this device. This preview does not load analytics or marketing trackers."
+                : details?.description}
+            </DialogDescription>
+          </DialogHeader>
+          {active === "Cookie Preferences" ? (
+            <div className="flex flex-col gap-5 pt-3">
+              {[
+                {
+                  label: "Essential storage",
+                  description: "Workspace settings and preferences.",
+                  value: true,
+                  disabled: true,
+                },
+                {
+                  label: "Analytics",
+                  description: "Optional usage analytics.",
+                  value: analytics,
+                  set: setAnalytics,
+                },
+                {
+                  label: "Marketing",
+                  description: "Optional marketing preferences.",
+                  value: marketing,
+                  set: setMarketing,
+                },
+              ].map((p) => (
+                <label key={p.label} className="flex items-center justify-between gap-5">
+                  <span>
+                    <strong className="block text-[13px] font-medium">{p.label}</strong>
+                    <small className="mt-1 block text-[11px] text-[#888]">{p.description}</small>
+                  </span>
+                  <Switch
+                    aria-label={p.label}
+                    checked={p.value}
+                    disabled={p.disabled}
+                    onCheckedChange={p.set}
+                  />
+                </label>
+              ))}
+              <button
+                className="w-fit cursor-pointer rounded-lg bg-[#eee] px-4 py-2 text-[12px] text-black"
+                onClick={() => {
+                  try {
+                    localStorage.setItem(
+                      "cloudforge-cookie-preferences",
+                      JSON.stringify({ analytics, marketing }),
+                    );
+                    setPreferencesSaved(true);
+                  } catch {
+                    setPreferencesSaved(false);
+                  }
+                }}
+              >
+                Save preferences
+              </button>
+              <p role="status" className="text-[11px] text-[#aaa]">
+                {preferencesSaved ? "Your preferences have been saved on this device." : ""}
+              </p>
+            </div>
+          ) : (
+            <Link
+              href={
+                active === "API Reference" || active === "SDKs" || active === "CLI"
+                  ? "/guides"
+                  : "/support"
+              }
+              className="mt-3 inline-flex w-fit items-center gap-2 text-[12px] text-[#ddd]"
+            >
+              Explore{" "}
+              {active === "API Reference" || active === "SDKs" || active === "CLI"
+                ? "the guides"
+                : "the support center"}
+              <ArrowRight size={14} />
+            </Link>
+          )}
+        </DialogContent>
+      </Dialog>
+    </footer>
+  );
 }

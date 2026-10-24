@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import {
   Check,
   Copy,
@@ -28,7 +28,8 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { ConfirmationDialog } from "./confirmation-dialog";
-import { WorkspaceHeading, Summary, Panel, StateBadge, PreviewNote } from "./workspace-ui";
+import { WorkspaceHeading, Summary, Panel, PreviewNote } from "./workspace-ui";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { useWorkspace } from "./workspace-provider";
 const defaults = {
   name: "Personal Workspace",
@@ -50,15 +51,38 @@ const defaults = {
   tokens: [] as { id: string; name: string; value: string }[],
 };
 function usePreferences() {
-  const [values, setValues] = useState(defaults);
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
+  const ready = useHydrated();
+  const [values, setValues] = useState(() => {
+    if (typeof window === "undefined") return defaults;
     try {
       const value = JSON.parse(localStorage.getItem("cloudforge-preferences-v1") || "null");
-      if (value && typeof value === "object") setValues({ ...defaults, ...value });
-    } catch {}
-    setReady(true);
-  }, []);
+      if (value && typeof value === "object" && !Array.isArray(value)) {
+        return Object.fromEntries(
+          Object.entries(defaults).map(([key, fallback]) => {
+            const candidate = value[key];
+            const valid = Array.isArray(fallback)
+              ? Array.isArray(candidate) &&
+                candidate.every(
+                  (token: unknown) =>
+                    token !== null &&
+                    typeof token === "object" &&
+                    "id" in token &&
+                    typeof token.id === "string" &&
+                    "name" in token &&
+                    typeof token.name === "string" &&
+                    "value" in token &&
+                    typeof token.value === "string",
+                )
+              : typeof candidate === typeof fallback;
+            return [key, valid ? candidate : fallback];
+          }),
+        ) as typeof defaults;
+      }
+    } catch {
+      // Unavailable or invalid storage uses the default preferences.
+    }
+    return defaults;
+  });
   function persist(next: typeof defaults) {
     setValues(next);
     try {

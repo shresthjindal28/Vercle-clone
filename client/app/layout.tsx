@@ -12,6 +12,8 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
+      // Browser extensions can add attributes before React hydrates the document.
+      suppressHydrationWarning
       lang="en"
       className={[
         GeistSans.variable,
@@ -41,6 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       ].join(" ")}
     >
       <body
+        suppressHydrationWarning
         className={
           "min-h-full flex flex-col bg-background text-foreground **:border-border **:outline-ring/50 has-[.cloud-app]:zoom-[0.9]"
         }

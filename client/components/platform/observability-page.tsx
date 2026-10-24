@@ -120,10 +120,6 @@ export function ObservabilityPage({ section }: { section: string }) {
   const [liveEntries, setLiveEntries] = useState<LogEntry[]>([]);
   const [refreshed, setRefreshed] = useState(false);
   useEffect(() => {
-    setLiveEntries([]);
-    setQuery("");
-  }, [project]);
-  useEffect(() => {
     if (!live) return;
     const interval = window.setInterval(() => {
       const now = new Date();
@@ -149,7 +145,11 @@ export function ObservabilityPage({ section }: { section: string }) {
         ].join(" ")}
         aria-label="Filter project"
         value={project}
-        onChange={(event) => setProject(event.target.value)}
+        onChange={(event) => {
+          setProject(event.target.value);
+          setLiveEntries([]);
+          setQuery("");
+        }}
       >
         <option>All projects</option>
         {resources.projects.map((row) => (
@@ -594,7 +594,7 @@ export function ObservabilityPage({ section }: { section: string }) {
             <WorkspaceChart
               title="Request volume"
               description="Requests served by your infrastructure"
-              metric={Math.round(1204832 * multiplier * projectFactor).toLocaleString()}
+              metric={Math.round(1204832 * multiplier * projectFactor).toLocaleString("en-US")}
               period={period}
             />
           </div>
@@ -677,7 +677,7 @@ export function ObservabilityPage({ section }: { section: string }) {
               },
               {
                 label: "Unique visitors",
-                value: Math.round(42891 * multiplier * projectFactor).toLocaleString(),
+                value: Math.round(42891 * multiplier * projectFactor).toLocaleString("en-US"),
                 detail: "+14% vs previous period · sample",
               },
               {
@@ -690,7 +690,9 @@ export function ObservabilityPage({ section }: { section: string }) {
           <WorkspaceChart
             title="Traffic overview"
             description="How your application is being used over time."
-            metric={Math.round(1204832 * multiplier * projectFactor).toLocaleString() + " requests"}
+            metric={
+              Math.round(1204832 * multiplier * projectFactor).toLocaleString("en-US") + " requests"
+            }
             period={period}
           />
           <div

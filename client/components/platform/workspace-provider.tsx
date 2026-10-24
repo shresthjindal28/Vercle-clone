@@ -1,13 +1,7 @@
 "use client";
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  useSyncExternalStore,
-  type ReactNode,
-} from "react";
+import { createContext, useContext, useState, useSyncExternalStore, type ReactNode } from "react";
 import { sectionConfigs, type Resource } from "@/lib/workspace-data";
+import { useHydrated } from "@/hooks/use-hydrated";
 import { toast } from "sonner";
 type Workspace = {
   resources: Record<string, Resource[]>;
@@ -19,51 +13,50 @@ const initial = Object.fromEntries(
 );
 const Context = createContext<Workspace | null>(null);
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
-  const [resources, setResources] = useState(initial);
-  const [ready, setReady] = useState(false);
-  useEffect(() => {
+  const ready = useHydrated();
+  const [resources, setResources] = useState(() => {
+    if (typeof window === "undefined") return initial;
     try {
       const stored = JSON.parse(localStorage.getItem("cloudforge-resources-v1") || "null");
-      if (stored && typeof stored === "object")
-        setResources((previous) =>
-          Object.fromEntries(
-            Object.entries(previous).map(([key, rows]) => [
-              key,
-              Array.isArray(stored[key]) &&
-              stored[key].every(
-                (row: Resource) =>
-                  row &&
-                  typeof row.id === "string" &&
-                  typeof row.name === "string" &&
-                  typeof row.project === "string" &&
-                  typeof row.detail === "string" &&
-                  typeof row.environment === "string" &&
-                  typeof row.status === "string",
-              )
-                ? stored[key]
-                : rows,
-            ]),
-          ),
-        );
-    } catch {
-      /* Invalid stored data falls back to seed content. */
-    }
-    setReady(true);
-  }, []);
-  function save(section: string, rows: Resource[]) {
-    setResources((previous) => {
-      const next = { ...previous, [section]: rows };
-      try {
-        localStorage.setItem("cloudforge-resources-v1", JSON.stringify(next));
-      } catch {
-        toast.warning(
-          "Changes are available for this session only. Browser storage is unavailable.",
+      if (stored && typeof stored === "object") {
+        return Object.fromEntries(
+          Object.entries(initial).map(([key, rows]) => [
+            key,
+            Array.isArray(stored[key]) &&
+            stored[key].every(
+              (row: Resource) =>
+                row &&
+                typeof row.id === "string" &&
+                typeof row.name === "string" &&
+                typeof row.project === "string" &&
+                typeof row.detail === "string" &&
+                typeof row.environment === "string" &&
+                typeof row.status === "string",
+            )
+              ? stored[key]
+              : rows,
+          ]),
         );
       }
-      return next;
-    });
+    } catch {
+      // Invalid stored data falls back to seed content.
+    }
+    return initial;
+  });
+  function save(section: string, rows: Resource[]) {
+    const next = { ...resources, [section]: rows };
+    setResources(next);
+    try {
+      localStorage.setItem("cloudforge-resources-v1", JSON.stringify(next));
+    } catch {
+      toast.warning("Changes are available for this session only. Browser storage is unavailable.");
+    }
   }
-  return <Context.Provider value={{ resources, save, ready }}>{children}</Context.Provider>;
+  return (
+    <Context.Provider value={{ resources: ready ? resources : initial, save, ready }}>
+      {children}
+    </Context.Provider>
+  );
 }
 export function useWorkspace() {
   const value = useContext(Context);

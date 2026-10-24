@@ -15,7 +15,12 @@ export function GuideCover({ art, large = false }: GuideCoverProps) {
         src={`/images/guides/${art}.webp`}
         alt=""
         fill
-        sizes={large ? "(max-width: 820px) 90vw, 760px" : "(max-width: 768px) 45vw, (max-width: 1400px) 23vw, 320px"}
+        loading={large ? "eager" : "lazy"}
+        sizes={
+          large
+            ? "(max-width: 820px) 90vw, 760px"
+            : "(max-width: 768px) 45vw, (max-width: 1400px) 23vw, 320px"
+        }
         className="object-cover object-center"
       />
     </div>
